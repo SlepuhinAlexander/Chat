@@ -78,7 +78,10 @@ public class Client {
     }
 
     /**
+     * Initializes the Client's settings. Establishes connection to Server.
+     * Starts up one Thread each for sending and receiving Messages.
      *
+     * @see Message
      */
     private void start() {
         try {
@@ -104,7 +107,10 @@ public class Client {
         new Thread(new Receiver(socket)).start();
     }
 
-
+    /**
+     * Thread task to infinitely receive {@link Message}-s from {@link Server} and print them out in the system
+     * console.
+     */
     private class Receiver extends Worker {
         private final Socket socket;
         private ObjectInputStream in;
@@ -136,8 +142,13 @@ public class Client {
         }
     }
 
+    /**
+     * Thread task to infinitely wait for user input. The inputted string is wrapped into {@link Message} object and
+     * sent to {@link Server}.
+     */
     private class Sender extends Worker {
         private final Socket socket;
+        private final String name = properties.getProperty("client.senderName");
         Scanner scanner = new Scanner(System.in);
         private ObjectOutputStream out;
 
@@ -152,7 +163,6 @@ public class Client {
 
         @Override
         protected void loop() throws Exception {
-            String name = properties.getProperty("client.senderName");
             System.out.print(name + ": ");
             String contents = scanner.nextLine();
             Message message = new Message(name, contents);
