@@ -1,4 +1,4 @@
-package ru.ifmo.client.cryptor;
+package ru.ifmo.chat.cryptor;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
